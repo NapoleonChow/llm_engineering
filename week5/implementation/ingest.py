@@ -10,7 +10,7 @@ from langchain_openai import OpenAIEmbeddings
 
 from dotenv import load_dotenv
 
-MODEL = "gpt-4.1-nano"
+MODEL = "openai/gpt-5-nano"
 
 DB_NAME = str(Path(__file__).parent.parent / "vector_db")
 KNOWLEDGE_BASE = str(Path(__file__).parent.parent / "knowledge-base")
@@ -19,8 +19,11 @@ KNOWLEDGE_BASE = str(Path(__file__).parent.parent / "knowledge-base")
 
 load_dotenv(override=True)
 
-embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
-
+embeddings = OpenAIEmbeddings(
+    model="text-embedding-3-large",
+    openai_api_key=os.environ["OPENROUTER_API_KEY"],
+    openai_api_base="https://openrouter.ai/api/v1",
+)
 
 def fetch_documents():
     folders = glob.glob(str(Path(KNOWLEDGE_BASE) / "*"))
